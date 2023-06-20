@@ -8,12 +8,12 @@ class UsersRepository implements IUsersRepository {
     private static INSTANCE: UsersRepository;
 
     public static getInstance(): UsersRepository {
-        if (!UsersRepository.INSTANCE) {
-          UsersRepository.INSTANCE = new UsersRepository();
-        }
-    
-        return UsersRepository.INSTANCE;
+      if (!UsersRepository.INSTANCE) {
+        UsersRepository.INSTANCE = new UsersRepository();
       }
+  
+      return UsersRepository.INSTANCE;
+    }
       
     findByEmail(email: string): User | undefined {
         const searchedUserByEmail = this.users.find((user) => user.email === email);
