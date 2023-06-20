@@ -2,28 +2,54 @@ import styled from "styled-components";
 
 export const StatusContainer = styled.div`
   display: flex;
+  height: 100vh;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
 `;
 
-export const StatusMessage = styled.p`
-  font-size: 24px;
+export const TitleMessage = styled.div<{ color: string }>`
   font-weight: bold;
-  color: ${(props) => props.color};
+  margin-bottom: 10px;
+`;
+export const StatusMessage = styled.div<{ color: string }>`
+  color: ${(props) => (props.color === "confirmado" ? "#2ecc71" : "#f39c12")};
+  font-weight: bold;
+  margin-bottom: 10px;
 `;
 
-export const getStatusColor = (status: string) => {
-  switch (status) {
-    case "pending":
-      return "#f39c12"; // Amarelo
-    case "shipped":
-      return "#3498db"; // Azul
-    case "delivered":
-      return "#2ecc71"; // Verde
-    case "canceled":
-      return "#e74c3c"; // Vermelho
-    default:
-      return "#333"; // Preto
-  }
-};
+export const StyledOrders = styled.div`
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
+export const ProductName = styled.div`
+  font-weight: bold;
+`;
+
+export const ProductId = styled.div`
+  color: #888888;
+`;
+
+export const Price = styled.div`
+  color: #555555;
+`;
+
+export const Quantity = styled.div`
+  margin-top: 5px;
+`;
+export const Button = styled.button`
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
