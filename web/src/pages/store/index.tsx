@@ -7,6 +7,8 @@ import {
   ProductPrice,
   QuantityInput,
   Button,
+  Title,
+  Content,
 } from "./styles";
 
 interface Product {
@@ -34,32 +36,43 @@ const ProductList: React.FC = () => {
     );
   };
 
-  const handleAddToCart = () => {
-    const filteredProducts = products.filter(
-      (product) => product.quantity > 0
-    )
+  const handleAddToCart = async () => {
+    const filteredProducts = products.filter((product) => product.quantity > 0);
 
     const body = {
       products: filteredProducts,
       userId: id,
+    };
+    console.log(body);
+    if (filteredProducts.length !== 0) {
+      try {
+        const response = await fetch("http://192.168.3.68:3333/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        if (response.ok) {
+          console.log("Compra em andamento");
+          const userData = await response.json();
+          const { id } = userData;
+          setBuyId(id);
+          localStorage.setItem("userData", JSON.stringify(userData));
+        } else {
+          console.log("Compra falhou!");
+        }
+      } catch (error) {
+        console.log("Erro ao criar a compra:", error);
+      }
     }
-
-    fetch("http://192.168.3.68:3333/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
   };
 
   useEffect(() => {
     fetch("http://192.168.3.68:3333/products")
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data.products)
+        setProducts(data.products);
       });
   }, []);
 
@@ -70,23 +83,23 @@ const ProductList: React.FC = () => {
   return (
     <div>
       <ProductListContainer>
-        {products.map((product) => (
-          <ProductCard key={product.id}>
-            <ProductName>{product.name}</ProductName>
-            <ProductPrice>{product.price}</ProductPrice>
-            <QuantityInput
-              type="number"
-              min="0"
-              value={product.quantity}
-              onChange={(event) => handleQuantityChange(event, product.id)}
-            />
-          </ProductCard>
-        ))}
+        <Title>Mercadinho</Title>
+        <Content>
+          {products.map((product) => (
+            <ProductCard key={product.id}>
+              <ProductName>{product.name}</ProductName>
+              <ProductPrice>{"Preço: R$" + product.price}</ProductPrice>
+              <QuantityInput
+                type="number"
+                min="0"
+                value={product.quantity}
+                onChange={(event) => handleQuantityChange(event, product.id)}
+              />
+            </ProductCard>
+          ))}
+        </Content>
+        <Button onClick={handleAddToCart}>Comprar</Button>
       </ProductListContainer>
-
-      <Button onClick={handleAddToCart}>
-        Listar Produtos com Quantidade Maior que 0
-      </Button>
     </div>
   );
 };
