@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "up": "docker compose up"
-    },
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/psyycker-medium/rabbitmq-nodejs-typescript.git"
@@ -20,10 +20,13 @@
   "homepage": "https://github.com/psyycker-medium/rabbitmq-nodejs-typescript#readme",
   "devDependencies": {
     "@types/amqplib": "^0.8.2",
+    "@types/express": "^4.17.17",
     "ts-node": "^10.5.0",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "amqplib": "^0.8.0"
+    "amqplib": "^0.8.0",
+    "express": "^4.18.2"
   }
 }
