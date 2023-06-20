@@ -9,6 +9,7 @@ import {
   Button,
 } from "./styles";
 import { Redirect } from "react-router-dom";
+
 const Login = () => {
   const [userId, setUserId] = useState(null);
   const [email, setEmail] = useState("");

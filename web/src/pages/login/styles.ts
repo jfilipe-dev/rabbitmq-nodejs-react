@@ -21,8 +21,10 @@ export const Title = styled.h1`
 `;
 
 export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 10px;
 `;
 
 export const Label = styled.label`
@@ -32,7 +34,6 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
