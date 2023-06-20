@@ -2,8 +2,8 @@ import { UsersRepository } from "../../repositories/implementations/UsersReposit
 import { SigninUserController } from "./SigninUserController";
 import { SigninUserUseCase } from "./SigninUserUseCase";
 
-const teste1 = new UsersRepository();
-const teste  = new SigninUserUseCase(teste1)
-const signinUserController = new SigninUserController(teste);
+const userRepository = new UsersRepository();
+const signinUserUseCase  = new SigninUserUseCase(userRepository)
+const signinUserController = new SigninUserController(signinUserUseCase);
 
 export { signinUserController };
