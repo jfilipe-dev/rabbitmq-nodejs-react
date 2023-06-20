@@ -3,7 +3,7 @@ import { Response, Request } from "express";
 import { SigninUserUseCase } from "./SigninUserUseCase";
 
 class SigninUserController {
-constructor(private signinUserUseCase: SigninUserUseCase) {}
+  constructor(private signinUserUseCase: SigninUserUseCase) {}
 
   handle(request: Request, response: Response): Response {
       try {
