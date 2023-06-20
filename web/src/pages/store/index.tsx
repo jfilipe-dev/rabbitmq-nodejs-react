@@ -17,15 +17,9 @@ interface Product {
 }
 
 const ProductList: React.FC = () => {
-  const id = useParams();
+  const { id } = useParams<any>();
   const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [buyId, setBuyId] = useState(null);
-  useEffect(() => {
-    fetch("http://192.168.3.68:3333/products")
-      .then((response) => response.json())
-      .then((data) => setProducts(data.products));
-  }, []);
 
   const handleQuantityChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -40,32 +34,34 @@ const ProductList: React.FC = () => {
     );
   };
 
-  const handleFilterProducts = () => {
-    const filtered = products.filter((product) => product.quantity > 0);
-    setFilteredProducts(filtered);
-  };
+  const handleAddToCart = () => {
+    const filteredProducts = products.filter(
+      (product) => product.quantity > 0
+    )
 
-  const handleAddToCart = (products: Product[]) => {
-    fetch("http://192.168.3.68:3333/products", {
+    const body = {
+      products: filteredProducts,
+      userId: id,
+    }
+
+    fetch("http://192.168.3.68:3333/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        products: [
-          products.map((product) => {
-            return {
-              id: product.id,
-              quantity: product.quantity,
-            };
-          }),
-        ],
-        userId: id,
-      }),
+      body: JSON.stringify(body),
     })
       .then((response) => response.json())
-      .then((data) => setBuyId(data.id));
+      .then((data) => console.log(data));
   };
+
+  useEffect(() => {
+    fetch("http://192.168.3.68:3333/products")
+      .then((response) => response.json())
+      .then((data) => {
+        setProducts(data.products)
+      });
+  }, []);
 
   if (buyId) {
     return <Redirect to={`/order/${id}/${buyId}`} />;
@@ -88,7 +84,7 @@ const ProductList: React.FC = () => {
         ))}
       </ProductListContainer>
 
-      <Button onClick={handleFilterProducts}>
+      <Button onClick={handleAddToCart}>
         Listar Produtos com Quantidade Maior que 0
       </Button>
     </div>
